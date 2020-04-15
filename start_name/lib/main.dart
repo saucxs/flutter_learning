@@ -11,16 +11,6 @@ class MyApp extends StatelessWidget {
     return new MaterialApp(
       title: 'welcome to start name Flutter Demo',
       home: new RandomWords(),
-      // home: new Scaffold(
-      //   appBar: new AppBar(
-      //     title: new Text('你好，saucxs'),
-      //   ),
-      //   body: new Center(
-      //     // child: new Text('Hello world'),
-      //     // child: new Text(wordPair.asPascalCase),
-      //     child: new RandomWords(),
-      //   )
-      // )
     );
   }
 }
@@ -31,11 +21,8 @@ class RandomWords extends StatefulWidget {
 }
 
 class RandomWordsState extends State<RandomWords> {
-  // Widget build(BuildContext context) {
-  //   final wordPair = new WordPair.random();
-  //   return new Text(wordPair.asPascalCase);
-  // }
   final _suggestions = <WordPair>[];
+  final _saved = new Set<WordPair>();
   final _biggerFont = const TextStyle(fontSize: 18.0);
   Widget _buildSuggestions() {
     return new ListView.builder(
@@ -52,11 +39,25 @@ class RandomWordsState extends State<RandomWords> {
   }
   // build 行
   Widget _buildRow(WordPair pair) {
+    final alreadySaved = _saved.contains(pair);
     return new ListTile(
       title: new Text(
         pair.asPascalCase,
         style: _biggerFont,
       ),
+      trailing: new Icon(
+        alreadySaved ? Icons.favorite : Icons.favorite_border,
+        color: alreadySaved ? Colors.red : null,
+      ),
+      onTap: () {
+        setState(() {
+          if (alreadySaved) {
+            _saved.remove(pair);
+          } else {
+            _saved.add(pair);
+          }
+        });
+      },
     );
   }
   // build 
@@ -64,8 +65,38 @@ class RandomWordsState extends State<RandomWords> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('Stratup Name Generator') ,
+        actions: <Widget>[
+          new IconButton(icon: new Icon(Icons.list), onPressed: _pushSaved),
+        ],
       ),
       body: _buildSuggestions(),
+    );
+  }
+  // _pushSaved()方法
+  void _pushSaved() {
+    Navigator.of(context).push(
+      new MaterialPageRoute(
+        builder: (context) {
+          final tiles = _saved.map((pair) {
+            return new ListTile(
+              title: new Text(
+                pair.asPascalCase,
+                style: _biggerFont,
+              ),
+            );
+          });
+          final divided = ListTile.divideTiles(
+            tiles: tiles,
+            context: context,
+            ).toList();
+            return new Scaffold(
+              appBar: new AppBar(
+                title: new Text('Saved Suggestions'),
+                ),
+                body: new ListView(children: divided),
+            );
+        }
+        )
     );
   }
 }
