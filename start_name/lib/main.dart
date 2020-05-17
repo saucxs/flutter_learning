@@ -10,6 +10,9 @@ class MyApp extends StatelessWidget {
     // final wordPair = new WordPair.random();
     return new MaterialApp(
       title: 'welcome to start name Flutter Demo',
+      theme: new ThemeData(
+        primaryColor: Colors.white,
+      ),
       home: new RandomWords(),
     );
   }
