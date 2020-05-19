@@ -18,7 +18,9 @@ class MyApp extends StatelessWidget {
         "testB": (context) {
           return RouterParamsTestB(params: ModalRoute.of(context).settings.arguments);
         },
-        "/":(context) => RouterParamsTestA(), //注册首页路由
+        "bg_page_1": (context) => BgPage1(),
+        "bg_page_2": (context) => BgPage2(),
+        "/":(context) => MyHomePage(title: 'Fultter Demo'), //注册首页路由
       },
     );
   }
@@ -86,6 +88,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(context, MaterialPageRoute(builder: (context){
                   return RouterParamsTestA();
                 }));
+              },
+            ),
+            FlatButton(
+              child: Text('背景图片'),
+              textColor: Colors.blue,
+              onPressed: () {
+                Navigator.pushNamed(context, 'bg_page_2');
               },
             )
           ],
@@ -182,4 +191,23 @@ class RouterParamsTestB extends StatelessWidget {
   }
 }
 
+// 资源管理 背景图
+class BgPage1 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new DecoratedBox(
+    decoration: new BoxDecoration(
+      image: new DecorationImage(
+        image: new AssetImage('asset/images/bg.jpeg'),
+      ),
+    ),
+  );
+  }
+}
 
+class BgPage2 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Image.asset('asset/images/bg.jpeg');
+  }
+}
