@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-void main() => {};
+void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
   @override
@@ -20,6 +20,8 @@ class MyApp extends StatelessWidget {
         },
         "bg_page_1": (context) => BgPage1(),
         "bg_page_2": (context) => BgPage2(),
+        "stalessWidget_page_3": (context) => StatelessWidgetPage3(),
+        "context_1": (context) => Context1(),
         "/":(context) => MyHomePage(title: 'Fultter Demo'), //注册首页路由
       },
     );
@@ -95,6 +97,20 @@ class _MyHomePageState extends State<MyHomePage> {
               textColor: Colors.blue,
               onPressed: () {
                 Navigator.pushNamed(context, 'bg_page_2');
+              },
+            ),
+            FlatButton(
+              child: Text('StatelessWidget'),
+              textColor: Colors.blue,
+              onPressed: () {
+                Navigator.pushNamed(context, 'stalessWidget_page_3');
+              },
+            ),
+            FlatButton(
+              child: Text('Context1'),
+              textColor: Colors.blue,
+              onPressed: () {
+                Navigator.pushNamed(context, 'context_1');
               },
             )
           ],
@@ -210,5 +226,60 @@ class BgPage2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image.asset('asset/images/bg.jpeg');
+  }
+}
+
+
+// StatelessWidget 显字符串
+class Echo extends StatelessWidget {
+  const Echo({
+    Key key,  
+    @required this.text,
+    this.backgroundColor:Colors.green,
+  }):super(key:key);
+
+  final String text;
+  final Color backgroundColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        color: backgroundColor,
+        child: Text(text),
+      ),
+    );
+  }
+}
+
+class StatelessWidgetPage3 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("StatelessWidget"),
+      ),
+      body: Center(
+        child: Echo(text: '回显字符串'),
+      ),
+    );
+  }
+}
+
+// Context
+class Context1 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Context测试-saucxs')),
+      body: Container(
+        child: Builder(builder: (context) {
+          // 在Widget树中向上查找最近的父级Scaffold widget
+          Scaffold scaffold = context.findAncestorWidgetOfExactType<Scaffold>();
+          // 直接返回 AppBar的title，此处实际上Text('Context测试')
+          return (scaffold.appBar as AppBar).title;
+        }),
+      ),
+    );
   }
 }
