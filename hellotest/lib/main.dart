@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(new MyApp());
+void main() => {};
 
 class MyApp extends StatelessWidget {
   @override
@@ -191,7 +191,7 @@ class RouterParamsTestB extends StatelessWidget {
   }
 }
 
-// 资源管理 背景图
+// 资源管理 背景图 AssetImage
 class BgPage1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -205,6 +205,7 @@ class BgPage1 extends StatelessWidget {
   }
 }
 
+// 资源管理 背景图 Image.asset
 class BgPage2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
